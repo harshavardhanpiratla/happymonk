@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import { copyFileSync, existsSync, mkdirSync } from 'fs';
 
 const PRODUCT_SLUGS = new Set([
   'pure-coffee',
@@ -41,6 +42,27 @@ function cleanUrlRewrite() {
     },
     configurePreviewServer(server) {
       server.middlewares.use(rewrite);
+    },
+    closeBundle() {
+      const distDir = resolve(import.meta.dirname, 'dist');
+      const staticMirrors = [
+        ['our-story.html', 'our-story/index.html'],
+        ['shop.html', 'shop/index.html'],
+        ['shop.html', 'shop-the-range/index.html'],
+        ...[...PRODUCT_SLUGS].flatMap((slug) => [
+          [`products/${slug}.html`, `products/${slug}/index.html`],
+          [`products/${slug}.html`, `${slug}/index.html`],
+        ]),
+      ];
+
+      for (const [srcRel, destRel] of staticMirrors) {
+        const srcPath = resolve(distDir, srcRel);
+        const destPath = resolve(distDir, destRel);
+        if (existsSync(srcPath)) {
+          mkdirSync(resolve(destPath, '..'), { recursive: true });
+          copyFileSync(srcPath, destPath);
+        }
+      }
     },
   };
 }

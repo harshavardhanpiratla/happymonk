@@ -56,7 +56,11 @@ if (menuBtn && mobileMenu) {
 /* ---------- populate product detail page if on /products/:slug ---------- */
 if (document.body.classList.contains('product-detail-page')) {
   const params = new URLSearchParams(location.search);
-  const pathParts = location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
+  const pathParts = location.pathname
+    .replace(/\/index\.html$/i, '')
+    .replace(/\/+$/, '')
+    .split('/')
+    .filter(Boolean);
   const lastPart = (pathParts[pathParts.length - 1] || '').replace(/\.html$/i, '');
   const slug = params.get('product') || (lastPart && lastPart !== 'product' ? lastPart : 'pure-coffee');
   const product = getProductBySlug(slug);

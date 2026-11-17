@@ -1,0 +1,15 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/our-story", "destination": "/our-story.html" },
+    { "source": "/shop", "destination": "/shop.html" },
+    { "source": "/shop-the-range", "destination": "/shop.html" },
+    { "source": "/products/:slug", "destination": "/products/:slug.html" },
+    { "source": "/pure-coffee", "destination": "/products/pure-coffee.html" },
+    { "source": "/honey", "destination": "/products/honey.html" },
+    { "source": "/chilli-powder", "destination": "/products/chilli-powder.html" },
+    { "source": "/cooking-ghee", "destination": "/products/cooking-ghee.html" },
+    { "source": "/puja-ghee", "destination": "/products/puja-ghee.html" }
+  ]
+}

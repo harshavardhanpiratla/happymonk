@@ -1,0 +1,9 @@
+/our-story /our-story.html 200
+/shop /shop.html 200
+/shop-the-range /shop.html 200
+/products/:slug /products/:slug.html 200
+/pure-coffee /products/pure-coffee.html 200
+/honey /products/honey.html 200
+/chilli-powder /products/chilli-powder.html 200
+/cooking-ghee /products/cooking-ghee.html 200
+/puja-ghee /products/puja-ghee.html 200
