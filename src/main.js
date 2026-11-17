@@ -86,52 +86,6 @@ menuBtn.addEventListener('click', () => {
 window.addEventListener('keydown', (e) => e.key === 'Escape' && closeMenu());
 
 /* =================================================================
-   MONK RIG — poses
-   ================================================================= */
-const R = {
-  body: $('.m-body'),
-  head: $('.m-head'),
-  torso: $('.m-torso'),
-  armL: $('.m-arm-l'), armR: $('.m-arm-r'),
-  foreL: $('.m-fore-l'), foreR: $('.m-fore-r'),
-  eyesOpen: $('.m-eyes-open'), eyesHappy: $('.m-eyes-happy'),
-  mouth: $('.m-mouth'), smile: $('.m-smile'),
-  sky: $$('.m-skyline path'),
-};
-gsap.set(R.head, { svgOrigin: '200 240' });
-gsap.set(R.armL, { svgOrigin: '140 265' });
-gsap.set(R.armR, { svgOrigin: '260 265' });
-gsap.set(R.foreL, { svgOrigin: '140 348' });
-gsap.set(R.foreR, { svgOrigin: '260 348' });
-gsap.set(R.body, { svgOrigin: '200 600' });
-
-const POSE = {
-  rest:    { aL: 6,  fL: -4,   aR: -6,  fR: 4 },
-  welcome: { aL: 18, fL: -28,  aR: -18, fR: 28 },
-  namaste: { aL: 9,  fL: -116, aR: -9,  fR: 116 },
-  present: { aL: 14, fL: -98,  aR: -78, fR: -22 },
-};
-const pose = (p, vars = {}) => [
-  [R.armL, { rotation: POSE[p].aL, ...vars }],
-  [R.foreL, { rotation: POSE[p].fL, ...vars }],
-  [R.armR, { rotation: POSE[p].aR, ...vars }],
-  [R.foreR, { rotation: POSE[p].fR, ...vars }],
-];
-const addPose = (tl, p, at, dur = 1, ease = 'power3.inOut') => {
-  pose(p).forEach(([el, v], i) => tl.to(el, { ...v, duration: dur, ease }, i % 2 ? `${at}+=0.08` : at)); // forearm trails upper arm → follow-through
-};
-const happyFace = (tl, at) => {
-  tl.to(R.eyesOpen, { opacity: 0, duration: 0.25 }, at)
-    .to(R.eyesHappy, { opacity: 1, duration: 0.25 }, at)
-    .to(R.mouth, { opacity: 0, duration: 0.3 }, at)
-    .to(R.smile, { opacity: 1, duration: 0.3 }, at);
-};
-pose('rest').forEach(([el, v]) => gsap.set(el, v));
-
-/* skyline stroke draw setup */
-R.sky.forEach((p) => { const l = p.getTotalLength(); gsap.set(p, { strokeDasharray: l, strokeDashoffset: l }); });
-
-/* =================================================================
    INTRO FILM
    ================================================================= */
 const titleChars = splitChars($('#intro-title'));
@@ -155,30 +109,13 @@ intro.addLabel('title')
   .to('#intro-kicker', { opacity: 0, duration: 0.5 }, 3.1)
   .to('#intro', { backgroundColor: 'rgba(0,0,0,0)', duration: 0.6 }, 3.8)
 
-/* Scene 2 — the monk arrives & greets */
+/* Scene 2 — the mascot arrives & presents the philosophy */
   .addLabel('monk', 3.9)
   .to('#hero-monk', { autoAlpha: 1, x: 0, y: 0, duration: 1.6, ease: 'expo.out' }, 'monk')
-  .fromTo(R.body, { rotation: -4 }, { rotation: 0, duration: 1.8, ease: 'elastic.out(1, 0.75)' }, 'monk')
-  .to(R.sky, { strokeDashoffset: 0, duration: 1.8, stagger: 0.04, ease: 'power2.inOut' }, 'monk+=0.3');
-addPose(intro, 'welcome', 'monk+=0.5', 0.9, 'power2.out');
-addPose(intro, 'namaste', 'monk+=1.5', 1.0, 'power3.inOut');
-intro
-  .to(R.head, { rotation: 0, y: 9, scaleY: 0.985, duration: 0.55, ease: 'power2.inOut' }, 'monk+=2.35')  // bow
-  .to(R.body, { rotation: 0.8, y: 3, duration: 0.55, ease: 'power2.inOut' }, 'monk+=2.35')
-  .to(R.head, { y: 0, scaleY: 1, duration: 0.7, ease: 'power2.out' }, 'monk+=3.0')
-  .to(R.body, { rotation: 0, y: 0, duration: 0.7, ease: 'power2.out' }, 'monk+=3.0');
-happyFace(intro, 'monk+=2.5');
-
-/* Scene 3 — presents the philosophy */
-intro.addLabel('present', 'monk+=3.5');
-addPose(intro, 'present', 'present', 1.15, 'power3.inOut');
-intro
-  .to(R.head, { rotation: 6, duration: 1.1, ease: 'power2.inOut' }, 'present')
-  .to(R.body, { rotation: 1.5, duration: 1.1, ease: 'power2.inOut' }, 'present')
-  .to('#hero-eyebrow', { autoAlpha: 1, y: 0, duration: 0.8 }, 'present+=0.3')
-  .to(heroLines, { yPercent: 0, duration: 1.2, stagger: 0.22, ease: 'expo.out' }, 'present+=0.45')
-  .to('#hero-sub', { autoAlpha: 1, y: 0, duration: 0.9 }, 'present+=1.3')
-  .addLabel('end', 'present+=2.3');
+  .to('#hero-eyebrow', { autoAlpha: 1, y: 0, duration: 0.8 }, 'monk+=0.4')
+  .to(heroLines, { yPercent: 0, duration: 1.2, stagger: 0.22, ease: 'expo.out' }, 'monk+=0.55')
+  .to('#hero-sub', { autoAlpha: 1, y: 0, duration: 0.9 }, 'monk+=1.4')
+  .addLabel('end', 'monk+=2.3');
 
 let introDone = false;
 function finishIntro() {
@@ -204,7 +141,6 @@ function enterSite() {
   gsap.to(['#hero-cta', '#scroll-cue'], { autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.1, delay: 0.5, ease: 'power3.out' });
   gsap.fromTo('#nav', { yPercent: -100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1, delay: 0.35, ease: 'power3.out', clearProps: 'transform,opacity' });
   lenis && lenis.start();
-  startIdle();
   ScrollTrigger.refresh();
   if (initialHash && $(initialHash)) setTimeout(() => scrollToHash(initialHash), reduced ? 0 : 600);
 }
@@ -220,43 +156,6 @@ if (reduced || returnFromStory) {
 } else {
   const go = () => intro.play();
   document.fonts && document.fonts.ready ? document.fonts.ready.then(go) : go();
-}
-
-/* =================================================================
-   IDLE PERSONALITY — breathing, blinking, looks toward cursor
-   ================================================================= */
-function startIdle() {
-  if (reduced) return;
-  // return to a relaxed "present" pose with subtle breathing
-  gsap.to(R.torso, { scaleY: 1.008, svgOrigin: '200 432', duration: 2.6, yoyo: true, repeat: -1, ease: 'sine.inOut' });
-  gsap.to(R.head, { y: -1.5, duration: 2.6, yoyo: true, repeat: -1, ease: 'sine.inOut' });
-  // occasional blink (happy eyes → open → blink)
-  gsap.delayedCall(2.5, () => {
-    gsap.to(R.eyesHappy, { opacity: 0, duration: 0.3 });
-    gsap.to(R.eyesOpen, { opacity: 1, duration: 0.3 });
-  });
-  const blink = () => {
-    gsap.timeline()
-      .to('.m-eye', { scaleY: 0.1, transformOrigin: '50% 50%', duration: 0.07, ease: 'power1.in' })
-      .to('.m-eye', { scaleY: 1, duration: 0.12, ease: 'power1.out' });
-    gsap.delayedCall(gsap.utils.random(2.8, 5.5), blink);
-  };
-  gsap.delayedCall(3.5, blink);
-  // head gently follows cursor
-  if (window.matchMedia('(pointer: fine)').matches) {
-    const rot = gsap.quickTo(R.head, 'rotation', { duration: 1.2, ease: 'power3.out' });
-    window.addEventListener('mousemove', (e) => rot(gsap.utils.mapRange(0, window.innerWidth, -5, 7, e.clientX)));
-  }
-  // wave back to namaste when the user returns to the top — a little greeting
-  ScrollTrigger.create({
-    trigger: '.hero', start: 'top top', end: 'bottom 40%',
-    onEnterBack: () => {
-      const g = gsap.timeline();
-      addPose(g, 'namaste', 0, 0.8);
-      g.to(R.head, { y: 7, duration: 0.4, ease: 'power2.inOut' }, 0.7).to(R.head, { y: 0, duration: 0.5 }, 1.1);
-      addPose(g, 'present', 1.4, 0.9);
-    },
-  });
 }
 
 /* =================================================================
