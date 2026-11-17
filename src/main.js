@@ -86,6 +86,58 @@ menuBtn.addEventListener('click', () => {
 window.addEventListener('keydown', (e) => e.key === 'Escape' && closeMenu());
 
 /* =================================================================
+   MONK RIG — Namaste poses
+   ================================================================= */
+const R = {
+  body: $('.m-body'),
+  head: $('.m-head'),
+  torso: $('.m-torso'),
+  armL: $('.m-arm-l'),
+  armR: $('.m-arm-r'),
+  foreL: $('.m-fore-l'),
+  foreR: $('.m-fore-r'),
+  eyesOpen: $('.m-eyes-open'),
+  eyesHappy: $('.m-eyes-happy'),
+  eyes: $$('.m-eye'),
+};
+gsap.set(R.head, { svgOrigin: '197 300' });
+gsap.set(R.armL, { svgOrigin: '140 322' });
+gsap.set(R.armR, { svgOrigin: '254 322' });
+gsap.set(R.foreL, { svgOrigin: '118 396' });
+gsap.set(R.foreR, { svgOrigin: '276 396' });
+gsap.set(R.body, { svgOrigin: '197 640' });
+gsap.set(R.eyes, { scaleY: 0, svgOrigin: '197 176' });
+
+const POSE = {
+  rest:    { aL: 8,  fL: 26,  aR: -8,  fR: -26 },
+  welcome: { aL: 12, fL: 36,  aR: -12, fR: -36 },
+  namaste: { aL: 0,  fL: 0,   aR: 0,   fR: 0 },
+};
+const pose = (p, vars = {}) => [
+  [R.armL, { rotation: POSE[p].aL, ...vars }],
+  [R.foreL, { rotation: POSE[p].fL, ...vars }],
+  [R.armR, { rotation: POSE[p].aR, ...vars }],
+  [R.foreR, { rotation: POSE[p].fR, ...vars }],
+];
+const addPose = (tl, p, at, dur = 0.95, ease = 'power3.inOut') => {
+  pose(p).forEach(([el, v], i) => tl.to(el, { ...v, duration: dur, ease }, i % 2 ? `${at}+=0.06` : at));
+};
+const doNamasteGreeting = (delay = 0) => {
+  if (reduced) {
+    pose('namaste').forEach(([el, v]) => gsap.set(el, v));
+    return;
+  }
+  const g = gsap.timeline({ delay });
+  addPose(g, 'welcome', 0, 0.45, 'power2.out');
+  addPose(g, 'namaste', 0.45, 0.85, 'power3.inOut');
+  g.to(R.eyesHappy, { opacity: 1, duration: 0.25 }, 1.0)
+    .to(R.head, { rotation: 0, y: 8, scaleY: 0.985, duration: 0.5, ease: 'power2.inOut' }, 1.05)
+    .to(R.head, { y: 0, scaleY: 1, duration: 0.65, ease: 'power2.out' }, 1.6)
+    .to(R.eyesHappy, { opacity: 0, duration: 0.35 }, 2.3);
+};
+pose('rest').forEach(([el, v]) => gsap.set(el, v));
+
+/* =================================================================
    INTRO FILM
    ================================================================= */
 const titleChars = splitChars($('#intro-title'));
@@ -109,21 +161,29 @@ intro.addLabel('title')
   .to('#intro-kicker', { opacity: 0, duration: 0.5 }, 3.1)
   .to('#intro', { backgroundColor: 'rgba(0,0,0,0)', duration: 0.6 }, 3.8)
 
-/* Scene 2 — the mascot arrives & presents the philosophy */
+/* Scene 2 — the mascot arrives & greets with Namaste */
   .addLabel('monk', 3.9)
-  .to('#hero-monk', { autoAlpha: 1, x: 0, y: 0, duration: 1.6, ease: 'expo.out' }, 'monk')
-  .to('#hero-eyebrow', { autoAlpha: 1, y: 0, duration: 0.8 }, 'monk+=0.4')
-  .to(heroLines, { yPercent: 0, duration: 1.2, stagger: 0.22, ease: 'expo.out' }, 'monk+=0.55')
-  .to('#hero-sub', { autoAlpha: 1, y: 0, duration: 0.9 }, 'monk+=1.4')
-  .addLabel('end', 'monk+=2.3');
+  .to('#hero-monk', { autoAlpha: 1, x: 0, y: 0, duration: 1.5, ease: 'expo.out' }, 'monk');
+addPose(intro, 'welcome', 'monk+=0.35', 0.7, 'power2.out');
+addPose(intro, 'namaste', 'monk+=1.1', 0.95, 'power3.inOut');
+intro
+  .to(R.eyesHappy, { opacity: 1, duration: 0.25 }, 'monk+=1.75')
+  .to(R.head, { rotation: 0, y: 8, scaleY: 0.985, duration: 0.55, ease: 'power2.inOut' }, 'monk+=1.75')
+  .to(R.head, { y: 0, scaleY: 1, duration: 0.7, ease: 'power2.out' }, 'monk+=2.35')
+  .addLabel('present', 'monk+=2.5')
+  .to('#hero-eyebrow', { autoAlpha: 1, y: 0, duration: 0.8 }, 'present')
+  .to(heroLines, { yPercent: 0, duration: 1.2, stagger: 0.22, ease: 'expo.out' }, 'present+=0.15')
+  .to('#hero-sub', { autoAlpha: 1, y: 0, duration: 0.9 }, 'present+=0.95')
+  .addLabel('end', 'present+=1.8');
 
 let introDone = false;
+let skippedIntro = false;
 function finishIntro() {
   if (introDone) return;
   introDone = true;
   try { localStorage.setItem('hm-intro-seen', '1'); } catch (e) {}
   const out = gsap.timeline({ defaults: { ease: 'power4.inOut' } });
-  if (!reduced) {
+  if (!reduced && !skippedIntro) {
     // elegant white horizontal wipe: sweeps in from left, exits right
     out.set('#wipe', { transformOrigin: 'left' })
       .to('#wipe', { scaleX: 1, duration: 0.55 })
@@ -138,9 +198,12 @@ function enterSite() {
   gsap.set('#hero-monk', { autoAlpha: 1, x: 0, y: 0 });
   gsap.set(heroLines, { yPercent: 0 });
   gsap.set(['#hero-eyebrow', '#hero-sub'], { autoAlpha: 1, y: 0 });
-  gsap.to(['#hero-cta', '#scroll-cue'], { autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.1, delay: 0.5, ease: 'power3.out' });
-  gsap.fromTo('#nav', { yPercent: -100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1, delay: 0.35, ease: 'power3.out', clearProps: 'transform,opacity' });
+  pose('namaste').forEach(([el, v]) => gsap.set(el, v));
+  gsap.to(['#hero-cta', '#scroll-cue'], { autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.1, delay: 0.3, ease: 'power3.out' });
+  gsap.fromTo('#nav', { yPercent: -100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1, delay: 0.2, ease: 'power3.out', clearProps: 'transform,opacity' });
   lenis && lenis.start();
+  startIdle();
+  if (skippedIntro && !reduced) doNamasteGreeting(0.25);
   ScrollTrigger.refresh();
   if (initialHash && $(initialHash)) setTimeout(() => scrollToHash(initialHash), reduced ? 0 : 600);
 }
@@ -152,10 +215,38 @@ try {
   if (returnFromStory) sessionStorage.removeItem('hm-return-home');
 } catch (e) {}
 if (reduced || returnFromStory) {
+  skippedIntro = true;
   intro.progress(1);
 } else {
   const go = () => intro.play();
   document.fonts && document.fonts.ready ? document.fonts.ready.then(go) : go();
+}
+
+/* =================================================================
+   IDLE PERSONALITY — Namaste pose, breathing, blinking, cursor tracking
+   ================================================================= */
+function startIdle() {
+  if (reduced) return;
+  gsap.to(R.head, { y: -1.5, duration: 2.6, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+  gsap.delayedCall(2.2, () => {
+    gsap.to(R.eyesHappy, { opacity: 0, duration: 0.35 });
+  });
+  const blink = () => {
+    gsap.timeline()
+      .to(R.eyes, { scaleY: 1, duration: 0.08, ease: 'power1.in' })
+      .to(R.eyes, { scaleY: 0, duration: 0.12, ease: 'power1.out' });
+    gsap.delayedCall(gsap.utils.random(2.8, 5.2), blink);
+  };
+  gsap.delayedCall(3.2, blink);
+  if (window.matchMedia('(pointer: fine)').matches) {
+    const rot = gsap.quickTo(R.head, 'rotation', { duration: 1.2, ease: 'power3.out' });
+    window.addEventListener('mousemove', (e) => rot(gsap.utils.mapRange(0, window.innerWidth, -4, 4, e.clientX)));
+  }
+  $('#hero-monk').addEventListener('click', () => doNamasteGreeting(0));
+  ScrollTrigger.create({
+    trigger: '.hero', start: 'top top', end: 'bottom 40%',
+    onEnterBack: () => doNamasteGreeting(0),
+  });
 }
 
 /* =================================================================

@@ -38,12 +38,78 @@ if (!reduced) {
 }
 
 /* =================================================================
-   MASCOT ENTRANCE ON OUR STORY PAGE
+   MONK RIG ON OUR STORY PAGE — Namaste greeting
    ================================================================= */
-if (!reduced && $('#story-monk-stage')) {
-  gsap.timeline({ defaults: { ease: 'power3.out' } })
-    .fromTo('#story-monk-stage', { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 1.15, ease: 'expo.inOut' }, 0.1)
-    .fromTo('#story-monk', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, ease: 'expo.out' }, 0.45);
+const R = {
+  body: $('.m-body'),
+  head: $('.m-head'),
+  torso: $('.m-torso'),
+  armL: $('.m-arm-l'),
+  armR: $('.m-arm-r'),
+  foreL: $('.m-fore-l'),
+  foreR: $('.m-fore-r'),
+  eyesOpen: $('.m-eyes-open'),
+  eyesHappy: $('.m-eyes-happy'),
+  eyes: $$('.m-eye'),
+};
+
+if (R.body) {
+  gsap.set(R.head, { svgOrigin: '197 300' });
+  gsap.set(R.armL, { svgOrigin: '140 322' });
+  gsap.set(R.armR, { svgOrigin: '254 322' });
+  gsap.set(R.foreL, { svgOrigin: '118 396' });
+  gsap.set(R.foreR, { svgOrigin: '276 396' });
+  gsap.set(R.body, { svgOrigin: '197 640' });
+  gsap.set(R.eyes, { scaleY: 0, svgOrigin: '197 176' });
+
+  const POSE = {
+    welcome: { aL: 12, fL: 36, aR: -12, fR: -36 },
+    namaste: { aL: 0,  fL: 0,  aR: 0,   fR: 0 },
+  };
+  const setPose = (p) => {
+    gsap.set(R.armL, { rotation: POSE[p].aL });
+    gsap.set(R.foreL, { rotation: POSE[p].fL });
+    gsap.set(R.armR, { rotation: POSE[p].aR });
+    gsap.set(R.foreR, { rotation: POSE[p].fR });
+  };
+  const tweenPose = (tl, p, at, dur = 0.9, ease = 'power3.inOut') => {
+    tl.to(R.armL, { rotation: POSE[p].aL, duration: dur, ease }, at)
+      .to(R.foreL, { rotation: POSE[p].fL, duration: dur, ease }, `${at}+=0.06`)
+      .to(R.armR, { rotation: POSE[p].aR, duration: dur, ease }, at)
+      .to(R.foreR, { rotation: POSE[p].fR, duration: dur, ease }, `${at}+=0.06`);
+  };
+
+  if (!reduced) {
+    setPose('welcome');
+    const entrance = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    entrance
+      .fromTo('#story-monk-stage', { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 1.15, ease: 'expo.inOut' }, 0.1)
+      .fromTo('#story-monk', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, ease: 'expo.out' }, 0.45);
+
+    tweenPose(entrance, 'namaste', 0.75, 0.9);
+    entrance
+      .to(R.eyesHappy, { opacity: 1, duration: 0.25 }, 1.35)
+      .to(R.head, { y: 8, scaleY: 0.985, duration: 0.45, ease: 'power2.inOut' }, 1.4)
+      .to(R.head, { y: 0, scaleY: 1, duration: 0.6, ease: 'power2.out' }, 1.9)
+      .to(R.eyesHappy, { opacity: 0, duration: 0.35 }, 2.6);
+
+    gsap.to(R.head, { y: -1.5, duration: 2.6, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: 2.6 });
+
+    const blink = () => {
+      gsap.timeline()
+        .to(R.eyes, { scaleY: 1, duration: 0.08, ease: 'power1.in' })
+        .to(R.eyes, { scaleY: 0, duration: 0.12, ease: 'power1.out' });
+      gsap.delayedCall(gsap.utils.random(2.8, 5.2), blink);
+    };
+    gsap.delayedCall(3.2, blink);
+
+    if (window.matchMedia('(pointer: fine)').matches) {
+      const rot = gsap.quickTo(R.head, 'rotation', { duration: 1.2, ease: 'power3.out' });
+      window.addEventListener('mousemove', (e) => rot(gsap.utils.mapRange(0, window.innerWidth, -4, 4, e.clientX)));
+    }
+  } else {
+    setPose('namaste');
+  }
 }
 
 /* =================================================================
