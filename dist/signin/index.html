@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In — Happy Monk | Customer Portal</title>
+    <meta name="description" content="Sign in to your Happy Monk customer account to manage your pantry orders, checkout, and track shipments." />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="/img/logo.png" />
+    <link rel="stylesheet" href="/assets/monk-CVm0Z4hC.css" />
+    <link rel="stylesheet" href="/css/ecommerce.css" />
+  </head>
+  <body class="editorial-white-page">
+    <header class="ed-header" id="ed-header">
+      <div class="wrap ed-header-inner">
+        <a href="/" class="brand ed-brand" aria-label="Happy Monk — home">
+          <span class="brand-mark ed-brand-mark"><img src="/img/logo.png" alt="Happy Monk" style="width:100%;height:100%;object-fit:cover;" /></span>
+          <span class="brand-name">Happy Monk</span>
+        </a>
+        <nav aria-label="Primary">
+          <ul class="ed-nav-links">
+            <li><a href="/shop">Shop the range</a></li>
+            <li><a href="/our-story">Our story</a></li>
+            <li><a href="/#pure">What pure means</a></li>
+            <li><a href="/#faq">FAQ</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="hm-portal-shell">
+      <div class="wrap">
+        <div class="hm-auth-card">
+          <p class="hm-auth-eyebrow">HAPPY MONK PANTRY · CUSTOMER PORTAL</p>
+          <h1 class="hm-auth-title">Sign In</h1>
+          <p class="hm-auth-sub">Sign in to place orders, manage your pantry cart, and track deliveries across Canada.</p>
+
+          <div id="hm-signin-alert" class="hm-alert is-error" style="display:none;"></div>
+
+          <form id="hm-signin-form" novalidate>
+            <div class="hm-form-group">
+              <label class="hm-label" for="signin-email">Email Address</label>
+              <input class="hm-input" id="signin-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" />
+            </div>
+
+            <div class="hm-form-group">
+              <label class="hm-label" for="signin-password">Password</label>
+              <div class="hm-pw-wrap">
+                <input class="hm-input" id="signin-password" name="password" type="password" autocomplete="current-password" required placeholder="••••••••" />
+                <button type="button" class="hm-pw-toggle" data-pw-toggle="signin-password">Show</button>
+              </div>
+            </div>
+
+            <div class="hm-form-meta-row">
+              <label class="hm-checkbox-label">
+                <input type="checkbox" id="signin-remember" checked />
+                <span>Remember me</span>
+              </label>
+              <a href="#forgot" id="hm-forgot-toggle" style="font-weight:600;text-decoration:underline;">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="hm-btn-primary" id="signin-submit-btn" style="width:100%;">
+              Sign In
+            </button>
+          </form>
+
+          <!-- Forgot Password Reset Box -->
+          <div id="hm-forgot-box" style="display:none;margin-top:24px;padding-top:20px;border-top:1px solid #000;">
+            <h2 style="font-family:var(--hm-serif);font-size:24px;margin-bottom:8px;">Reset Your Password</h2>
+            <p style="font-size:13.5px;color:#555;margin-bottom:16px;">Verify your registered email address and phone number to set a new password.</p>
+            <form id="hm-forgot-form">
+              <div class="hm-form-group">
+                <label class="hm-label" for="fp-email">Registered Email</label>
+                <input class="hm-input" id="fp-email" type="email" required />
+              </div>
+              <div class="hm-form-group">
+                <label class="hm-label" for="fp-phone">Registered Phone Number</label>
+                <input class="hm-input" id="fp-phone" type="tel" required placeholder="+1 416 555 0199" />
+              </div>
+              <div class="hm-form-group">
+                <label class="hm-label" for="fp-new-pw">New Password</label>
+                <input class="hm-input" id="fp-new-pw" type="password" required placeholder="Min 8 chars, A-Z, a-z, 0-9" />
+              </div>
+              <div class="hm-form-group">
+                <label class="hm-label" for="fp-confirm-pw">Confirm New Password</label>
+                <input class="hm-input" id="fp-confirm-pw" type="password" required />
+              </div>
+              <button type="submit" class="hm-btn-secondary" style="width:100%;">Update Password</button>
+            </form>
+          </div>
+
+          <div class="hm-auth-footer">
+            New to Happy Monk? <a href="/signup" id="hm-goto-signup">Create an account</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="wrap"><hr class="ed-divider" /></div>
+    <footer class="story-footer">
+      <div class="wrap">
+        <div class="story-footer-grid">
+          <div class="story-footer-brand">
+            <a href="/" class="brand story-brand">
+              <span class="brand-mark story-brand-mark"><img src="/img/logo.png" alt="Happy Monk" style="width:100%;height:100%;object-fit:cover;" /></span>
+              <span class="brand-name">Happy Monk</span>
+            </a>
+            <p class="story-footer-desc">An Indian pantry in Canada — with the proof printed on every pack.</p>
+          </div>
+          <ul class="story-footer-links">
+            <li><a href="/shop" class="link">Shop</a></li>
+            <li><a href="/our-story" class="link">Our story</a></li>
+            <li><a href="/cart" class="link">Cart</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="/js/customer-portal.js"></script>
+  </body>
+</html>

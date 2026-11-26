@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login — Happy Monk | Administrator Portal</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="/img/logo.png" />
+    <link rel="stylesheet" href="/assets/monk-CVm0Z4hC.css" />
+    <link rel="stylesheet" href="/css/ecommerce.css" />
+  </head>
+  <body class="hm-admin-body" style="display:flex;align-items:center;justify-content:center;padding:24px;">
+    <main style="width:100%;max-width:480px;">
+      <div class="hm-auth-card" style="border-width:2px;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid #000;">
+          <img src="/img/logo.png" alt="Happy Monk" style="width:44px;height:44px;border:1px solid #000;" />
+          <div>
+            <div style="font-family:var(--hm-serif);font-size:24px;line-height:1;">Happy Monk</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#555;margin-top:3px;">
+              ADMINISTRATOR PORTAL
+            </div>
+          </div>
+        </div>
+
+        <h1 class="hm-auth-title" style="font-size:38px;">Administrator Sign In</h1>
+        <p class="hm-auth-sub">Restricted access. Customer accounts cannot sign in here.</p>
+
+        <div id="hm-admin-login-alert" class="hm-alert is-error" style="display:none;"></div>
+
+        <form id="hm-admin-login-form" novalidate>
+          <div class="hm-form-group">
+            <label class="hm-label" for="admin-email">Administrator Email</label>
+            <input class="hm-input" id="admin-email" type="email" autocomplete="username" required placeholder="admin@happymonk.ca" />
+          </div>
+
+          <div class="hm-form-group">
+            <label class="hm-label" for="admin-password">Password</label>
+            <div class="hm-pw-wrap">
+              <input class="hm-input" id="admin-password" type="password" autocomplete="current-password" required placeholder="••••••••" />
+              <button type="button" class="hm-pw-toggle" id="admin-pw-toggle">Show</button>
+            </div>
+          </div>
+
+          <button type="submit" class="hm-btn-primary" id="admin-login-btn" style="width:100%;margin-top:8px;">
+            Sign In to Admin Portal
+          </button>
+        </form>
+
+        <div class="hm-auth-footer">
+          <a href="/">← Return to public storefront</a>
+        </div>
+      </div>
+    </main>
+
+    <script type="module" src="/js/admin-portal.js"></script>
+  </body>
+</html>

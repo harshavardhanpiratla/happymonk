@@ -1,12 +1,15 @@
 {
   "name": "happy-monk",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "start": "node server.js",
+    "dev": "node server.js",
+    "vite": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "setup:admin": "node server/setup-admin.js"
   },
   "devDependencies": {
     "vite": "^8.3.6"

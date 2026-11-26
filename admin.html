@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard — Happy Monk | Store Operations</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="/img/logo.png" />
+    <link rel="stylesheet" href="/assets/monk-CVm0Z4hC.css" />
+    <link rel="stylesheet" href="/css/ecommerce.css" />
+  </head>
+  <body class="hm-admin-body">
+    <div class="hm-admin-shell" id="hm-admin-app">
+      <!-- Sidebar Navigation -->
+      <aside class="hm-admin-sidebar" aria-label="Admin Sidebar">
+        <div>
+          <div class="hm-admin-brand">
+            <img src="/img/logo.png" alt="Happy Monk" />
+            <div class="hm-admin-brand-text">
+              <span class="hm-admin-brand-title">Happy Monk</span>
+              <span class="hm-admin-brand-sub">Admin Portal</span>
+            </div>
+          </div>
+
+          <nav class="hm-admin-nav">
+            <button type="button" class="hm-admin-nav-btn is-active" data-admin-nav="dashboard">
+              <span>1. Dashboard</span>
+            </button>
+            <button type="button" class="hm-admin-nav-btn" data-admin-nav="orders">
+              <span>2. Orders</span>
+              <span class="hm-admin-nav-count" id="hm-nav-count-orders">0</span>
+            </button>
+            <button type="button" class="hm-admin-nav-btn" data-admin-nav="products">
+              <span>3. Products</span>
+            </button>
+            <button type="button" class="hm-admin-nav-btn" data-admin-nav="customers">
+              <span>4. Customers</span>
+            </button>
+            <button type="button" class="hm-admin-nav-btn" data-admin-nav="inventory">
+              <span>5. Inventory</span>
+            </button>
+            <button type="button" class="hm-admin-nav-btn" data-admin-nav="settings">
+              <span>6. Settings</span>
+            </button>
+            <button type="button" class="hm-admin-nav-btn" data-admin-nav="logout" style="color:#f87171;">
+              <span>7. Logout</span>
+            </button>
+          </nav>
+        </div>
+
+        <div class="hm-admin-sidebar-foot">
+          <div><span class="hm-live-dot"></span> Real-Time Sync Active</div>
+          <div style="margin-top:8px;">
+            <a href="/" target="_blank" style="color:#fff;text-decoration:underline;font-weight:600;">Open Public Storefront ↗</a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Workspace -->
+      <div class="hm-admin-main">
+        <header class="hm-admin-topbar">
+          <h1 style="font-family:var(--hm-serif);font-size:28px;line-height:1;" id="hm-admin-section-title">
+            Dashboard Overview
+          </h1>
+          <div style="display:flex;align-items:center;gap:16px;font-size:13px;">
+            <span id="hm-admin-user-label" style="font-weight:600;">Administrator</span>
+          </div>
+        </header>
+
+        <main class="hm-admin-content">
+          <div id="hm-admin-live-banners"></div>
+          <div id="hm-admin-content">
+            <div class="hm-table-card" style="padding:32px;">Loading Happy Monk Admin Dashboard...</div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script type="module" src="/js/admin-portal.js"></script>
+  </body>
+</html>
